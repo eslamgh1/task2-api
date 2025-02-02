@@ -93,6 +93,7 @@ if (isError){
                 />
                 <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
                 <h2>{product.category.name}</h2>
+                <h2 className="text-red-600 border border-teal-500">{product._id}</h2>
 
                 <div className="flex justify-between items-center">
                   <p>{product.ratingsAverage}</p>
