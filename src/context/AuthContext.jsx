@@ -28,7 +28,7 @@ export default function AuthContextProvider({ children }) {
       <authContext.Provider value={ {setUserToken ,userToken}}>        
       
         {children}
-        <div>Just Name Function AuthContextProvider</div>
+        <div>1 st outsider AuthContextProvider</div>
       </authContext.Provider>
 
 
