@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .slick-prev, .slick-next{
   display: block !important;
 }

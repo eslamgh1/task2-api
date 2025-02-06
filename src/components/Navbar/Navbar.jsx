@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { authContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { cartContext } from "../../context/CartContext";
 
 export default function Navbar() {
   const { userToken } = useContext(authContext);
-  const {setUserToken} = useContext(authContext)
+  const { setUserToken } = useContext(authContext);
+  const { numOfCartItems } = useContext(cartContext);
   const navigate = useNavigate();
 
-  function logOut(){
-
+  function logOut() {
     console.log("logged Out");
-    localStorage.removeItem('tkn');
+    localStorage.removeItem("tkn");
     setUserToken(null);
-    navigate('/login');
-
+    navigate("/login");
   }
 
   return (
@@ -74,7 +74,19 @@ export default function Navbar() {
           <div className="flex gap-3">
             <ul className="flex gap-3">
               <li>
-                <i className="fa-solid fa-flag-usa"></i>
+                {userToken && (
+                  <Link to="/cart">
+                    <div
+                      type="button"
+                      className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      <i className="fa-solid fa-cart-shopping"></i>
+                      <span className="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-green-800 bg-yellow-200 rounded-full">
+                        {numOfCartItems}
+                      </span>
+                    </div>
+                  </Link>
+                )}
               </li>
               <li>
                 <i className="fa-solid fa-dumbbell"></i>
@@ -87,8 +99,6 @@ export default function Navbar() {
               </li>
             </ul>
             <ul className="flex gap-3">
-            
-
               {!userToken ? (
                 <>
                   <li>
@@ -105,7 +115,9 @@ export default function Navbar() {
               ) : (
                 <>
                   <li>
-                    <Link onClick={logOut} className="text-slate-800">Signout</Link>
+                    <Link onClick={logOut} className="text-slate-800">
+                      Signout
+                    </Link>
                   </li>
                 </>
               )}

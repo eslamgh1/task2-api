@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Home.module.css";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 import LoaderScreen from "../LoaderScreen/LoaderScreen";
 import HomeSlider from "../HomeSlider/HomeSlider";
@@ -8,6 +9,7 @@ import HomeSlider from "../HomeSlider/HomeSlider";
 import CategoriesSlider from "../../components/CategoriesSlider/CategoriesSlider";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
   // const [allProducts, setAllProducts] = useState(null);
@@ -39,12 +41,27 @@ export default function Home() {
   //   getAllProducts();
   // }, []);
 
+  const { addProductToCart } = useContext(cartContext);
+
+  async function handleAddProductToCart(id) {
+    const res = await addProductToCart(id);
+
+    if (res){
+      toast.success("Product is Added to cart ",{duration:3000 , position:"top-center"})
+    }else{
+      toast.error("Error during adding to cart",{duration:3000 , position:"top-center"})
+    }
+
+
+
+  }
+
   function getAllProducts() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/products");
   }
 
-  const { data, isLoading, isError, error, isFetching, refetch } = useQuery({
-    queryKey: "allProducts",
+  const { data, isLoading, isError, error, isFetching } = useQuery({
+    queryKey: ["allProducts"],
     queryFn: getAllProducts,
     // enabled:false,
   });
@@ -109,10 +126,15 @@ export default function Home() {
                     )}
                   </div>
                 </div>
+                
                 <div className="absolute top-0 right-2 translate-x-[200%]">
                   <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddProductToCart(product._id)
+                    }}
                     type="button"
-                    class="group-hover:translate-x-[-200%] transition-all duration-500 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    className="group-hover:translate-x-[-200%] transition-all duration-500 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                   >
                     +
                   </button>

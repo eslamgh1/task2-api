@@ -143,8 +143,8 @@ const {setUserToken} = useContext(authContext)
             >
               Email address
             </label>
-            {registerFormik.errors.email && registerFormik.touched.email ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Enter your right email:{registerFormik.errors.errors}
+            {registerFormik.errors.email && registerFormik.touched.email ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Enter your right email:{registerFormik.errors.errors}
             </div> : null}
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -163,8 +163,8 @@ const {setUserToken} = useContext(authContext)
             >
               Password
             </label>
-            {registerFormik.errors.password && registerFormik.touched.password ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Ensures at least 4 elements {registerFormik.errors.password}
+            {registerFormik.errors.password && registerFormik.touched.password ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Ensures at least 4 elements {registerFormik.errors.password}
             </div> : null}
           </div>
 
@@ -181,7 +181,7 @@ const {setUserToken} = useContext(authContext)
               animationDuration="0.75"
               ariaLabel="rotating-lines-loading"
               wrapperStyle={{}}
-              wrapperClass=""
+              wrapperclassName=""
             /> }
           
 
