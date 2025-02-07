@@ -20,8 +20,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CartContext from "./context/CartContext";
 import { Toaster } from "react-hot-toast";
-
-
+import Order from "./components/Order/Order";
+import { Offline, Online } from "react-detect-offline";
 
 QueryClientProvider;
 
@@ -80,6 +80,14 @@ let x = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "order",
+        element: (
+          <ProtectedRoute>
+            <Order />
+          </ProtectedRoute>
+        ),
+      },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "*", element: <NotFound /> },
@@ -104,11 +112,22 @@ function App() {
         <AuthContextProvider>
           <CartContext>
             <RouterProvider router={x}></RouterProvider>
-          <Toaster/>
+            <Toaster />
           </CartContext>
         </AuthContextProvider>
-      </QueryClientProvider>
     
+      </QueryClientProvider>
+
+      <div>
+        <Offline className="">
+          <h1 className=" border-2 border-red-700 box-content text-black fixed top-10 left-10 right font-semibold bg-orange-500">
+            
+          You're offline right now. Check your connection.
+          </h1>
+
+        </Offline>
+      </div>
+  
     </>
   );
 }

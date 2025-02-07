@@ -9,10 +9,17 @@ export const cartContext = createContext();
 
 export default function CartContext({ children }) {
   const { userToken } = useContext(authContext);
-
   const [numOfCartItems, setNumOfCartItems] = useState(0);
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [products, setProducts] = useState(null);
+  const [cartId, setCartId] = useState(null);
+
+  function resetValues() {
+    // setNumOfCartItems(0)
+    setTotalCartPrice(0)
+    setProducts(null)
+    setCartId(null)
+  }
 
   async function addProductToCart(id) {
     const res = await axios
@@ -28,13 +35,17 @@ export default function CartContext({ children }) {
         }
       )
       .then(function (res) {
-        console.log("cart1", res.data.numOfCartItems);
-        console.log("cart2", res.data.data.totalCartPrice);
-        console.log("cart3", res.data.data.products);
+        // console.log("cart1", res.data.numOfCartItems);
+        // console.log("cart2", res.data.data.totalCartPrice);
+        // console.log("cart3", res.data.data.products);
 
         // setNumOfCartItems(res.data.numOfCartItems);
         // setTotalCartPrice(res.data.data.totalCartPrice);
         // setProducts(res.data.data.products);
+
+        setCartId(res.data.cartId);
+        console.log("cartID-add:", res.data.cartId);
+
         getUserCart();
         return true;
       })
@@ -54,13 +65,16 @@ export default function CartContext({ children }) {
         },
       })
       .then(function (result) {
-        console.log("cartsucess::::", result.data.numOfCartItems);
-        console.log("cartsucess::::", result.data.data.totalCartPrice);
-        console.log("cartsucess::::", result.data.data.products);
+        // console.log("cartsucess::::", result.data.numOfCartItems);
+        // console.log("cartsucess::::", result.data.data.totalCartPrice);
+        // console.log("cartsucess::::", result.data.data.products);
 
         setNumOfCartItems(result.data.numOfCartItems);
         setTotalCartPrice(result.data.data.totalCartPrice);
         setProducts(result.data.data.products);
+
+        setCartId(result.data.cartId);
+        console.log("cartID-get", result.data.cartId);
       })
       .catch(function (err) {
         console.log("cartFail:::", err);
@@ -68,7 +82,8 @@ export default function CartContext({ children }) {
   }
 
   async function getUpdateCount(id, newCount) {
-    const newRes= await axios.put(
+    const newRes = await axios
+      .put(
         `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
         {
           count: newCount,
@@ -86,7 +101,7 @@ export default function CartContext({ children }) {
         setTotalCartPrice(res.data.data.totalCartPrice);
         setProducts(res.data.data.products);
 
-        return true
+        return true;
       })
 
       .catch(function (err) {
@@ -95,14 +110,44 @@ export default function CartContext({ children }) {
         return false;
       });
 
-    return newRes  
+    return newRes;
   }
+
+  async function removeItemFromCart(id) {
+    const removeRes = await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/cart/${id}`, {
+        headers: {
+          token: userToken,
+        },
+      })
+      .then(function (res) {
+        console.log("numOfCartItems:", res.data.numOfCartItems);
+        console.log("totalCartPrice:", res.data.data.totalCartPrice);
+        console.log("products:", res.data.data.products);
+
+        setNumOfCartItems(res.data.numOfCartItems);
+        setTotalCartPrice(res.data.data.totalCartPrice);
+        setProducts(res.data.data.products);
+
+        return true;
+      })
+      .catch(function (err) {
+        console.log("err-delete", err);
+
+        return false;
+      });
+
+    return removeRes;
+  }
+
 
   useEffect(() => {
     if (userToken) {
       getUserCart();
     }
   }, [userToken]);
+
+
 
   return (
     <cartContext.Provider
@@ -113,13 +158,19 @@ export default function CartContext({ children }) {
         totalCartPrice,
         products,
         getUpdateCount,
+        removeItemFromCart,
+        cartId,
+        userToken,
+        resetValues,
       }}
     >
       <div>
-        {children}
 
+        {children}
         <h1> 2nd Context -Cart Context</h1>
+      
       </div>
     </cartContext.Provider>
   );
+  
 }

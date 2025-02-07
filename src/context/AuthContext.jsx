@@ -1,38 +1,46 @@
 import React, { createContext, useEffect, useState } from 'react'
-
-
-
-export const authContext = createContext();
+export const authContext = createContext()
+import { jwtDecode } from 'jwt-decode'
 
 
 // token idea
 export default function AuthContextProvider({ children }) {
-  
-  const [userToken, setUserToken]= useState(null);
-  
+  ; /! what is the lazy initialization/
+  const [userToken, setUserToken] = useState(null)
 
-  useEffect(function() {
-    
+  // to get ID user from given token
+  const [userData, setUserData] = useState(null)
+
+  function decryptUserToken() {
+    const resDecrypt = jwtDecode(userToken)
+    console.log('resDecrypt', resDecrypt)
+    setUserData(resDecrypt)
+  }
+
+  useEffect(
+    function () {
+      if (userToken) {
+        decryptUserToken()
+      }
+    },
+    [userToken]
+  )
+
+  useEffect(function () {
     console.log('refreshed')
     const tkn = localStorage.getItem('tkn')
-    if( tkn !== null){
+    if (tkn !== null) {
       setUserToken(tkn)
-      
     }
+  }, [])
 
-  }, []);
-  
   return (
-
     <>
-      <authContext.Provider value={ {setUserToken ,userToken}}>        
-      
+      <authContext.Provider value={{ setUserToken, userToken, userData }}>
+
         {children}
         <div>1 st outsider AuthContextProvider</div>
       </authContext.Provider>
-
-
     </>
-
   )
 }
