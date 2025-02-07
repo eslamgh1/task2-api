@@ -5,11 +5,17 @@ import axios from "axios";
 import { authContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function Order() {
   const { cartId, resetValues } = useContext(cartContext);
   const { userToken } = useContext(authContext);
-  const { isCash, setIsCash } = useState(true);
+  const [ isCash, setIsCash ] = useState(true);
+  const navigate = useNavigate();
+
+  
+  console.log("tt", isCash)
+  // const [isCash, setIsCash] = useState(true)
 
   const formikCart = useFormik({
     initialValues: {
@@ -17,9 +23,11 @@ export default function Order() {
       phone: "",
       city: "",
     },
+    // onSubmit: createCashOrder,
     onSubmit: function(values){
       if (isCash){
         createCashOrder(values)
+        console.log("nowwww",isCash)
       }else{
         checkoutOrder(values)
       }
@@ -45,6 +53,7 @@ export default function Order() {
       .then(function (res) {
         if (res.data.status === "success") {
           toast.success("Pay Cash on delievery");
+          navigate("/home");
           resetValues();
         }
       })
@@ -86,7 +95,7 @@ export default function Order() {
   function checkoutOrder(values) {
     axios
       .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}`,
         {
           shippingAddress: values,
         },
@@ -105,7 +114,6 @@ export default function Order() {
       })
 
       .catch(function (err) {
-        
         console.log("error from order", err);
       });
 
@@ -197,14 +205,14 @@ export default function Order() {
 
           <button
             type="submit"
-            onClick={()=>setIsCash(true)}
+            onClick={() => setIsCash(true)}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Pay Cash on delievery
           </button>
           <button
             type="submit"
-            onClick={()=>setIsCash(false)}
+            onClick={() => setIsCash(false)}
             className=" mx-3 text-white bg-cyan-500 hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Checkout with card
