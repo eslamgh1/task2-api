@@ -39,7 +39,7 @@ export default function AuthContextProvider({ children }) {
       <authContext.Provider value={{ setUserToken, userToken, userData }}>
 
         {children}
-        <div>1 st outsider AuthContextProvider</div>
+      
       </authContext.Provider>
     </>
   )

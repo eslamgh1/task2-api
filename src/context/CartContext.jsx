@@ -167,7 +167,7 @@ export default function CartContext({ children }) {
       <div>
 
         {children}
-        <h1> 2nd Context -Cart Context</h1>
+      
       
       </div>
     </cartContext.Provider>
