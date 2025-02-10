@@ -2,7 +2,6 @@ import style from "./HomeSlider.module.css";
 import React from "react";
 import Slider from "react-slick";
 
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -10,10 +9,8 @@ import img1 from "../../assets/Images/grocery-banner.png";
 import img2 from "../../assets/Images/grocery-banner-2.jpeg";
 import img3 from "../../assets/Images/banner-4.jpeg";
 import img4 from "../../assets/Images/slider-image-1.jpeg";
-import img5 from "../../assets/Images/slider-image-1.jpeg";
-import img6 from "../../assets/Images/slider-image-2.jpeg";
-
-
+import img7 from "../../assets/Images/img-slide1.jpg"
+import img8 from "../../assets/Images/img-slide2.jpg"
 
 export default function HomeSlider() {
   var settings = {
@@ -25,45 +22,39 @@ export default function HomeSlider() {
   };
 
   return (
-<div className="flex px-5 pb-20">
+    <div className="flex flex-col gap-10 w-full md:flex-row md:gap-0 px-1 pb-20 items-center">
+      <div className="w-3/4 flex-col gap-5">
+        <Slider {...settings}>
+          <div>
+            <img src={img1} alt={"pic1"} className="w-full h-72" />
+          </div>
 
-  <div className="w-3/4">
-  <Slider {...settings}>
-      <div>
-        <img src={img1} alt={"pic1"} className="w-full h-72" />
+          <div>
+            <img src={img2} alt={"pic2"} className="w-full h-72" />
+          </div>
+
+          <div>
+            <img src={img3} alt={"pic2"} className="w-full h-72" />
+          </div>
+
+          <div>
+            <img src={img4} alt={"pic2"} className="w-full h-72" />
+          </div>
+
+          <div>
+            <img src={img1} alt={"pic5"} className="w-full h-72" />
+          </div>
+
+          <div>
+            <img src={img1} alt={"pic6"} className="w-full h-72" />
+          </div>
+        </Slider>
       </div>
 
-      <div>
-        <img src={img2} alt={"pic2"} className="w-full h-72" />
+      <div className="">
+        <img src={img7} className="w-full h-40 block" alt="img7" />
+        <img src={img8} className="w-full h-40 block" alt="img8" />
       </div>
-
-      <div>
-        <img src={img3} alt={"pic2"} className="w-full h-72" />
-      </div>
-
-      <div>
-        <img src={img4} alt={"pic2"} className="w-full h-72" />
-      </div>
-
-      <div>
-        <img src={img1} alt={"pic5"} className="w-full h-72" />
-      </div>
-
-      <div>
-        <img src={img1} alt={"pic6"} className="w-full h-72" />
-      </div>
-    </Slider>
-  </div>
-
-  <div className="w-1/4">
-    <img src={img5} className="w-full h-32 block" alt="img5" />
-    <img src={img6} className="w-full h-32 block" alt="img6" />
-  </div>
-
-
-
-
-
-</div>
+    </div>
   );
 }

@@ -15,39 +15,24 @@ export default function CategoriesSlider() {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 2,
+    responsive: [
+      {
+        breakpoint: 1024, // Medium screens (e.g., tablets)
+        settings: {
+          slidesToShow: 4, // Show 4 slides on medium screens
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 768, // Small screens (e.g., mobile phones)
+        settings: {
+          slidesToShow: 2, // Show 2 slides on small screens
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
-  // const [allCategories, setAllCategories] = useState(null)
-
-
-  // function getAllCategories(){
-
-  //   axios.get("https://ecommerce.routemisr.com/api/v1/categories")
-  //   .then(function(response){
-  //     console.log(response.data.data ,"categories res:")
-  //     setAllCategories(response.data.data)
-  //   })
-  //   .catch(function(error){
-  //     console.log(error)
-  //   })
-
-  // }
-
-  // useEffect(() => {
-  //   getAllCategories()
-  // }, []);
-
-  // function getAllCategories() {
-  //   return axios.get("https://ecommerce.routemisr.com/api/v1/categories");
-  // }
-
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["getAllCategories"],
-  //   queryFn: getAllCategories,
-  // });
-
-  // const allCategories = data?.data.data;
-  // console.log("getAllCategories data", allCategories);
 
 const { data , isLoading} = useCategories();
 const allCategories = data?.data.data;
@@ -57,12 +42,12 @@ const allCategories = data?.data.data;
 
 
 
-  <div className="w-3/4">
+  <div className="w-full">
   <Slider {...settings}>
 
     { allCategories?.map( category => <div key={category._id }>
         <img src={category.image} alt={category.name} className="w-full h-72" />
-          <h2> {category.name} </h2>
+          <h2 className="font-bold text-lg text-gray-800 text-center"> {category.name} </h2>
       </div> )}
 
       {/* <div>
