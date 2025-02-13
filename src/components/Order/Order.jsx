@@ -54,7 +54,6 @@ export default function Order() {
         if (res.data.status === "success") {
           toast.success("Pay Cash on delievery");
           navigate("/home");
-          resetValues();
         }
       })
       .catch(function (err) {

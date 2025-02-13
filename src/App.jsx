@@ -25,6 +25,7 @@ import { Offline, Online } from "react-detect-offline";
 
 QueryClientProvider;
 
+//! router package { createBrowserRouter  } from "react-router-dom";
 let x = createBrowserRouter([
   {
     path: "",
@@ -104,6 +105,8 @@ let x = createBrowserRouter([
 ]);
 
 const client = new QueryClient();
+
+//! router packageRouterProvider  from "react-router-dom";
 
 function App() {
   return (

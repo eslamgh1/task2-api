@@ -6,9 +6,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
-
-
-
 export default function Register() {
   // TOP Level Function Component
   const navigate = useNavigate();
@@ -24,33 +21,34 @@ export default function Register() {
     "phone": ""
   }
 
-
   //   registerFormik: onSubmit: registerUser,
   function registerUser(values) {
-    console.log(values, "On submit Done ya solom")
 
+    console.log("register-registerUser(values)",values)
 
-    setIsClick(true);
+      //button return Loaaaaading-RotatingLines when click onSubmit FORM
+      setIsClick(true);
+
     // axios return promise " as response" as like fetch so i will use then&catch to handle errors
     const { data } = axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', values)
       .then(function (x) {
-
-        console.log('Mabrook:', x);
+  
+        console.log('registerUser-then:', x.data);
         SetSuccessMessage(true);
+      //button return submit
         setIsClick(false)
-
-
+        
         setTimeout(() => {
           navigate('/login')
         }, 2000);
-
-
       })
-      // catch is handling only network errors
+      
+      // catch of Fetch is handling only network errors
       .catch(function (x) {
 
-        console.log('Mesh sah : ', x.response.data.message);
+        console.log('registerUser-catch : ', x.response.data);
         SetErrorMessage(x.response.data.message)
+      //button return submit
         setIsClick(false)
 
 
@@ -62,8 +60,10 @@ export default function Register() {
 
   }
 
+
   const registerFormik = useFormik({
     initialValues: user,
+    //onsubmit in function==>return values
     onSubmit: registerUser,
 
     // // validation section:
@@ -112,7 +112,6 @@ export default function Register() {
 
   });
 
-
   return (
     <>
       <div className="py-5">
@@ -125,6 +124,8 @@ export default function Register() {
         </div> : ''}
 
         <h1 className="text-center" >Register Now:</h1>
+
+        {/* Do submit without refresh registerFormik <form onSubmit={registerFormik.handleSubmit}> */}
         <form onSubmit={registerFormik.handleSubmit} className="max-w-md mx-auto">
 
           <div className="relative z-0 w-full mb-5 group">
@@ -150,8 +151,8 @@ export default function Register() {
             >
               Email address
             </label>
-            {registerFormik.errors.email && registerFormik.touched.email ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Enter your right email:{registerFormik.errors.errors}
+            {registerFormik.errors.email && registerFormik.touched.email ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Enter your right email:{registerFormik.errors.errors}
             </div> : null}
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -170,8 +171,8 @@ export default function Register() {
             >
               Password
             </label>
-            {registerFormik.errors.password && registerFormik.touched.password ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Ensures at least 4 elements {registerFormik.errors.password}
+            {registerFormik.errors.password && registerFormik.touched.password ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Ensures at least 4 elements {registerFormik.errors.password}
             </div> : null}
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -190,8 +191,8 @@ export default function Register() {
             >
               Confirm password
             </label>
-            {registerFormik.errors.rePassword && registerFormik.touched.rePassword ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Enter your same above password again {registerFormik.errors.password}
+            {registerFormik.errors.rePassword && registerFormik.touched.rePassword ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Enter your same above password again {registerFormik.errors.password}
             </div> : null}
           </div>
           <div className="relative z-0 w-full mb-5 group">
@@ -210,12 +211,10 @@ export default function Register() {
             >
               Phone
             </label>
-            {registerFormik.errors.phone && registerFormik.touched.phone ? <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span class="font-medium">Danger alert!</span> Enter your phone number {registerFormik.errors.phone}
+            {registerFormik.errors.phone && registerFormik.touched.phone ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+              <span className="font-medium">Danger alert!</span> Enter your phone number {registerFormik.errors.phone}
             </div> : null}
           </div>
-
-
 
           <button
             type="submit"
@@ -230,12 +229,10 @@ export default function Register() {
               animationDuration="0.75"
               ariaLabel="rotating-lines-loading"
               wrapperStyle={{}}
-              wrapperClass=""
+              wrapperClassName=""
             /> }
-          
-
-            
           </button>
+
         </form>
       </div>
     </>

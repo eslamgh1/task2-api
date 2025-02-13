@@ -8,12 +8,10 @@ import { RotatingLines } from "react-loader-spinner";
 import { authContext } from '../../context/AuthContext';
 
 
-
-
 export default function Login() {
   // TOP Level Function Component
   const navigate = useNavigate();
-const {setUserToken} = useContext(authContext)
+  const {setUserToken} = useContext(authContext)
 
 
   const [errorMessage, SetErrorMessage] = useState('')
@@ -28,28 +26,27 @@ const {setUserToken} = useContext(authContext)
 
   //   loginUser need user {} to onSubmit in registerFormik using Api:
   function loginUser(values) {
-    console.log(values, "On submit Done ya solom")
+    console.log(values, "loginUser-values")
 
     setIsClick(true);
     // using Api:
     const { data } = axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values)
       .then(function (x) {
-        console.log('Mabrook:', x.data.token);
+        console.log('loginUser-then:', x.data.token);
 
         localStorage.setItem('tkn',x.data.token)
         setUserToken(x.data.token)
-
 
         SetSuccessMessage(true);
         setIsClick(false)
 
         setTimeout(() => {
-          navigate('/products')
+          navigate('/home')
         }, 2000);
       })
 
       .catch(function (x) {
-        console.log('Mesh sah : ', x.response.data.message);
+        console.log('loginUser-catch: ', x.response.data.message);
         SetErrorMessage(x.response.data.message)
         setIsClick(false)
 
@@ -66,41 +63,7 @@ const {setUserToken} = useContext(authContext)
     initialValues: user,
     onSubmit: loginUser,
 
-    // // validation section:
-    // validate: function (kanbaValues) {
-    //   const errors = {};
-    //   const nameRegex = /[a-zA-Z0-9]/;
-    //   const phoneRegex = /[0-9]/;
-    //   const passwordRegex = /^.{4,}$/;
 
-    //   if (!nameRegex.test(kanbaValues.name)) {
-    //     errors.name = " Enter your user name";
-    //   }
-    //   if (kanbaValues.email.includes('@') == false || kanbaValues.email.includes('.') == false) {
-    //     errors.email = " Enter your right email";
-    //   }
-
-    //   if (!phoneRegex.test(kanbaValues.phone)) {
-    //     errors.phone = " Enter right phone number";
-    //   }
-
-    //   if (passwordRegex.test(kanbaValues.password) == false ) {
-    //     errors.password = " Ensures at least 4 elements  ";
-    //   }
-
-    //   if ( kanbaValues.password !== kanbaValues.rePassword) {
-    //     errors.rePassword = " Enter same repassowrd ";
-    //   }
-
-    //   // console.log("kanba.name:", kanbaValues.name);
-    //   // console.log("Regex test result:", nameRegex.test(kanbaValues.name));
-
-    //   console.log(errors)
-
-    //   return errors;
-
-
-    // }
     // validation yup library:
     validationSchema: yup.object().shape({
       email: yup.string().required('email is required').email("envaild email"),

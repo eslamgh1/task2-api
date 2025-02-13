@@ -13,8 +13,6 @@ import { Link } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
-  // const [allProducts, setAllProducts] = useState(null);
-
   const { addProductToCart } = useContext(cartContext);
 
   async function handleAddProductToCart(id) {
@@ -43,11 +41,6 @@ export default function Home() {
     // enabled:false,
   });
 
-  console.log("useQuery data", data);
-  console.log("useQuery error", error);
-  console.log("useQuery isFetching", isFetching);
-  console.log("useQuery isLoading", isLoading);
-
   const allProducts = data?.data.data;
 
   if (isLoading) {
@@ -57,6 +50,7 @@ export default function Home() {
   if (isError) {
     return <h2> Error From Home page</h2>;
   }
+  
 
   return (
     <>
@@ -66,56 +60,58 @@ export default function Home() {
           {/* <button onClick={refetch} className="bg-blue-600 border width w-3/4"> Get Products</button> */}
           <HomeSlider />
           <CategoriesSlider />
-          <SearchBar/>
+          <SearchBar />
 
-  
-          <div className="grid gap-2 md:grid-cols-3 md:gap-5 lg:grid-cols-6 ">
+          <div className="grid gap-2 md:grid-cols-2 md:gap-5 lg:grid-cols-5">
             {/* 3rd Div Card for IMG */}
 
             {allProducts?.map((product) => (
               <Link
                 to={`/productdetails/${product._id}`}
                 key={product._id}
-                className="bg-blue-300 rounded-sm border border-red-100 relative  overflow-hidden group"
+                className="rounded-sm border border-red-100 relative  overflow-hidden group shadow-xl hover:shadow-green-500"
               >
                 <img
                   src={product.imageCover}
                   alt={product.title}
                   className="w-full"
                 />
-                <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                <h2 className="">{product.category.name}</h2>
-                <h2 className="text-red-600 border border-teal-500">
-                  {product._id}
-                </h2>
+                <h2 className="text-green-500 px-3">{product.category.name}</h2>
+                <h3 className="px-3">
+                  {product.title.split(" ").slice(0, 2).join(" ")}
+                </h3>
 
-                <div className="flex justify-between items-center">
-                  <p>{product.ratingsAverage}</p>
-
+                <div className="flex justify-between items-center px-3">
                   <div className="">
                     {product.priceAfterDiscount ? (
                       <>
-                        <p>{product.priceAfterDiscount}</p>
+                        <p>{product.priceAfterDiscount} EGP</p>
                         <p className="line-through text-red-600">
-                          {product.price}
+                          {product.price} EGP
                         </p>
                       </>
                     ) : (
-                      <p>{product.price}</p>
+                      <p>{product.price} EGP</p>
                     )}
                   </div>
+                  <div className="flex justify-center items-center">
+                    <i className="text-amber-500 fa-solid fa-star"></i>
+                    <p>{product.ratingsAverage}</p>
+                  </div>
                 </div>
-
-                <div className="absolute top-0 right-2 translate-x-[200%]">
+                <div className="grid place-items-end pb-10 md:pb-20 xl:pb-10">
+                  <i className="fa-solid fa-heart px-3"></i>
+                </div>
+                <div className="absolute bottom-0 left-[30%] translate-y-[100%]">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       handleAddProductToCart(product._id);
                     }}
                     type="button"
-                    className="group-hover:translate-x-[-200%] transition-all duration-500 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    className="group-hover:translate-y-[-130%] transition-all duration-500 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-md px-5 py-2.5 text-center me-2 mb-2"
                   >
-                    +
+                    +Add
                   </button>
                 </div>
               </Link>

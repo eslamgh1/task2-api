@@ -27,7 +27,7 @@ export default function AuthContextProvider({ children }) {
   )
 
   useEffect(function () {
-    console.log('refreshed')
+    console.log('AuthContext-localStorage.getItem')
     const tkn = localStorage.getItem('tkn')
     if (tkn !== null) {
       setUserToken(tkn)
