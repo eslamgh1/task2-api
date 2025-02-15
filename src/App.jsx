@@ -22,6 +22,10 @@ import CartContext from "./context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Order from "./components/Order/Order";
 import { Offline, Online } from "react-detect-offline";
+import WishList from "./components/WishList/WishList";
+
+
+
 
 QueryClientProvider;
 
@@ -86,6 +90,14 @@ let x = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Order />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <ProtectedRoute>
+            <WishList/>
           </ProtectedRoute>
         ),
       },

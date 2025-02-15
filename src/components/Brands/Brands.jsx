@@ -1,31 +1,59 @@
-import React, { useState } from 'react'
-import style from './Brands.module.css'
+import React from "react";
+import style from "./Brands.module.css";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import LoaderScreen from "../LoaderScreen/LoaderScreen";
+
 
 
 export default function Brands() {
-  return <>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-      <h1>Brands</h1>
-  
-      
+  function getAllBrands() {
+    return axios.get("https://ecommerce.routemisr.com/api/v1/brands");
+  }
 
+  const { data, isLoading, isError, error, isFetching } = useQuery({
+    queryKey: ["allBrands"],
+    queryFn: getAllBrands,
+  });
 
+  const allBrands = data?.data.data;
+  // console.log("resGetAllBrands", allBrands)
+  // console.log("getAllBrands", getAllBrands)
+  console.log("allBrands", allBrands);
 
-  </>
+    if (isLoading) {
+      return <LoaderScreen />;
+    }
+
+  return (
+    <>
+      <h1 className="text-center pt-14 font-bold text-5xl text-green-500 ">All Brands</h1>
+
+      <div className="container mx-auto py-4">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          {/* 3rd Div Card for IMG */}
+
+          {allBrands?.map((brand) => (
+            <div
+              key={brand._id}
+              className="cursor-pointer rounded-sm border border-green-100 shadow-xl hover:shadow-green-500 hover:transition-all hover:duration-300"
+            >
+              <img
+                src={brand.image}
+                alt={brand.name}
+                className="w-full"
+              />
+
+              <p className="pb-14">
+                <h2 className="text-center pt-14 font-bold text-3xl text-green-500 ">
+                  {brand.name}
+              
+                </h2>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
-

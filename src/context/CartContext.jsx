@@ -15,7 +15,7 @@ export default function CartContext({ children }) {
   const [cartId, setCartId] = useState(null);
 
   function resetValues() {
-    // setNumOfCartItems(0)
+    setNumOfCartItems(0)
     setTotalCartPrice(0)
     setProducts(null)
     setCartId(null)
@@ -162,6 +162,9 @@ export default function CartContext({ children }) {
         cartId,
         userToken,
         resetValues,
+        setProducts,
+        setNumOfCartItems,
+        setTotalCartPrice,
       }}
     >
       <div>

@@ -11,6 +11,11 @@ export default function useCart() {
     products,
     getUpdateCount,
     removeItemFromCart,
+    setNumOfCartItems,
+    setProducts,
+    resetValues,
+    setTotalCartPrice,
+    getUserCart,
   } = useContext(cartContext);
 
   console.log("products from cart:", products);
@@ -35,5 +40,5 @@ export default function useCart() {
     }
   }
 
-  return {products, handleRemoveItemFromCart ,handleChangeCount ,totalCartPrice,numOfCartItems}
+  return {products, handleRemoveItemFromCart ,handleChangeCount ,totalCartPrice,numOfCartItems,setNumOfCartItems,setProducts,setTotalCartPrice,resetValues,getUserCart}
 }

@@ -3,11 +3,18 @@ import React, { useContext, useState } from "react";
 import LoaderScreen from "../LoaderScreen/LoaderScreen";
 
 import useCart from "./useCart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
+
+
+
 
 
 export default function Cart() {
+
+  const navigate =useNavigate();
+
 
   const {
     products,
@@ -15,13 +22,17 @@ export default function Cart() {
     handleChangeCount,
     totalCartPrice,
     numOfCartItems,
-    cartId
+    cartId,
+    setNumOfCartItems,
+    setProducts,
+    setTotalCartPrice,
+    getUserCart,
+    
   } = useCart();
 
   if (!products) {
     return <LoaderScreen />;
   }
-
 
   function createCashOrder(values) {
     console.log(" values-createCashOrder", values);
@@ -36,7 +47,7 @@ export default function Cart() {
         {
           headers: {
             // token: userToken,
-            token: localStorage.getItem("userToken")
+            token: localStorage.getItem("tkn")
           },
         }
       )
@@ -53,31 +64,39 @@ export default function Cart() {
 
   }
 
-
   // 1-remove cart
-  function removeCart() {
-   axios.delete(
-    `https://ecommerce.routemisr.com/api/v1/cart/`,
-      
+  async function removeCart() {
+   await axios.delete(
+    "https://ecommerce.routemisr.com/api/v1/cart",
         {
           headers: {
-            token: localStorage.getItem("userToken")
+            token: localStorage.getItem("tkn")
           },
         }
       )
-      .then(function (res) {
-
-        console.log("removeCart")
-        if (res.data.message === "success") {
-          toast.success("Cart is Removed ");
-          navigate("/home");
-        }
+      .then(function (res) {  
+        if (res) {
+          toast.success("Cart is removed succefully");
+          // //error in   setNumOfCartItems(0)
+          setNumOfCartItems(0);
+          setTotalCartPrice(0);
+          setProducts([]);
+          console.log(products);
+          
+          // navigate("/home");  
+        }    
       })
       .catch(function (err) {
-        console.log(err , "error from remove cart");
+        console.log('removeCart-catch:' , err);
+        // console.log('removeCart-catch:' , err.response.data.message);
       });
   }
 
+    // useEffect(() => {
+
+    //   getUserCart();
+    // }, []);
+  
 
   return (
     <>

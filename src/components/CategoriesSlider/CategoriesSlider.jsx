@@ -8,6 +8,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 import useCategories from '../../assets/customHooks/useCategories'
+
 export default function CategoriesSlider() {
   var settings = {
     dots: true,
@@ -33,14 +34,12 @@ export default function CategoriesSlider() {
     ],
   };
 
-
 const { data , isLoading} = useCategories();
+
 const allCategories = data?.data.data;
 
   return (
 <div className="flex px-5 pb-20">
-
-
 
   <div className="w-full">
   <Slider {...settings}>

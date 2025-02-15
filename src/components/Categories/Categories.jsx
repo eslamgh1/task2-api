@@ -17,20 +17,22 @@ const allCategories = data?.data.data;
 
   return (
     <>
-<div className="container mx-auto py-5">
+<div className="container mx-auto py-4">
 
 
-<div className="grid gap-2 md:grid-cols-3 md:gap-5 lg:grid-cols-5 ">
+<div className="grid gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
         {/* 3rd Div Card for IMG */}
 
         {allCategories?.map((category) => (
           <div
             key={category._id}
-            className="bg-blue-300 rounded-sm border border-red-100"
+            className="cursor-pointer rounded-sm border border-green-100 shadow-xl hover:shadow-green-500 hover:transition-all hover:duration-300"
           >
-            <img src={category.image} alt={category.name} className="w-full" />
+            <img src={category.image} alt={category.name} className="w-full h-3/4" />
 
-            <h2>{category.name}</h2>
+        <p className="pb-14">
+        <h2 className="text-center pt-14 font-bold text-3xl text-green-500 ">{category.name}</h2>
+        </p>
           </div>
         ))}
       </div>
