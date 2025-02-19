@@ -13,11 +13,16 @@ import { Link } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
-  const { addProductToCart, addProductToWishList,removeItemWishList,getWishList } = useContext(cartContext);
+  const {
+    addProductToCart,
+    addProductToWishList,
+    removeItemWishList,
+    getWishList,
+  } = useContext(cartContext);
 
-  const [wishlist, setWishlist] = useState([]);
 
-  const [wishListClicked, setWishListClicked] = useState([])
+
+  const [wishListClicked, setWishListClicked] = useState([]);
 
   async function handleAddProductToCart(id) {
     const res = await addProductToCart(id);
@@ -35,11 +40,9 @@ export default function Home() {
     }
   }
 
-
-  async function getWishListProducts(){
-
-    const data = await getWishList()
-
+  async function getWishListProducts() {
+    const data = await getWishList();
+    console.log(data);
   }
   // async function handleAddProductToWishList(id) {
   //   const res = await addProductToWishList(id);
@@ -114,6 +117,15 @@ export default function Home() {
   //   }
   // }
 
+
+  useEffect(() => {
+    if (data){
+      getWishList();
+    }
+    
+  }, [data]);
+
+
   return (
     <>
       {/* 1st container mx-auto = container of bootstrap */}
@@ -164,20 +176,12 @@ export default function Home() {
 
                 <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleToggleWishList(product._id);
-                    }}
+                  
                   >
                     {/* <i className="fa-solid fa-heart px-3 hover:text-red-700"></i> */}
 
                     <i
-                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 ${
-                        wishlist.includes(product._id)
-                          ? "text-red-700"
-                          : "text-black"
-                      }`}
-
+                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 text-black` }
                     ></i>
                   </button>
                 </div>

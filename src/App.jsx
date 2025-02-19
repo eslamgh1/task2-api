@@ -39,7 +39,7 @@ let x = createBrowserRouter([
         index: true,
         element: (
           <ProtectedRoute>
-            {" "}
+            
             <Home />
           </ProtectedRoute>
         ),
@@ -56,7 +56,7 @@ let x = createBrowserRouter([
         path: "home",
         element: (
           <ProtectedRoute>
-            {" "}
+            
             <Home />
           </ProtectedRoute>
         ),
@@ -73,7 +73,7 @@ let x = createBrowserRouter([
         path: "cart",
         element: (
           <ProtectedRoute>
-            <Cart />{" "}
+            <Cart />
           </ProtectedRoute>
         ),
       },
@@ -108,7 +108,7 @@ let x = createBrowserRouter([
         path: "productDetails/:id",
         element: (
           <ProtectedRoute>
-            <ProductDetails />{" "}
+            <ProductDetails />
           </ProtectedRoute>
         ),
       },
@@ -126,7 +126,7 @@ function App() {
       <QueryClientProvider client={client}>
         <AuthContextProvider>
           <CartContext>
-            <RouterProvider router={x}></RouterProvider>
+            <RouterProvider router={x}/>
             <Toaster />
           </CartContext>
         </AuthContextProvider>
