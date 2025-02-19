@@ -40,7 +40,7 @@ export default function ProductDetails() {
   // console.log('Data test1:',data )
 
   const productDetailsObj = data?.data.data;
-  // console.log('Data test2:',productDetailsObj )
+  console.log('productDetailsObj',productDetailsObj )
 
   if (isError) {
     return <h1> Product is not found</h1>;
@@ -59,8 +59,8 @@ export default function ProductDetails() {
     <>
       <div className="container mx-auto">
         <h1>Product Details </h1>
-        <div className="grid sm:grid-cols-4 gap-3">
-          <div className="col-span-1">
+        <div className="grid sm:grid-cols-5 gap-3">
+          <div className="col-span-2">
             <img
               className="w-full"
               src={productDetailsObj.imageCover}
@@ -71,7 +71,7 @@ export default function ProductDetails() {
             <h1>title {productDetailsObj.title}</h1>
             <p>description {productDetailsObj.description}</p>
             <h3>price: {productDetailsObj.price}</h3>
-            <h3>quantity: {productDetailsObj.quantity}</h3>
+            <h3>sold: {productDetailsObj.sold}</h3>
             <button
               onClick={handleAddProductToCart}
               className="bg-green-500 w-full rounded my-3 font-bold"

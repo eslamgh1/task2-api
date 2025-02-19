@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
-  const { addProductToCart } = useContext(cartContext);
+  const { addProductToCart,addProductToWishList } = useContext(cartContext);
 
   async function handleAddProductToCart(id) {
     const res = await addProductToCart(id);
@@ -31,6 +31,23 @@ export default function Home() {
     }
   }
 
+  async function handleAddProductToWishList(id) {
+    const res = await addProductToWishList(id);
+
+    if (res) {
+      toast.success("Addeded to Wish List ", {
+        duration: 3000,
+        position: "top-center",
+      });
+    } else {
+      toast.error("Error during adding to Wish List", {
+        duration: 3000,
+        position: "top-center",
+      });
+    }
+  }
+
+
   function getAllProducts() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/products");
   }
@@ -43,6 +60,9 @@ export default function Home() {
 
   const allProducts = data?.data.data;
 
+  // allProducts is a arry so I can map it and I couldn't map objects
+  console.log("allProducts", allProducts);
+
   if (isLoading) {
     return <LoaderScreen />;
   }
@@ -50,7 +70,8 @@ export default function Home() {
   if (isError) {
     return <h2> Error From Home page</h2>;
   }
-  
+
+
 
   return (
     <>
@@ -99,8 +120,14 @@ export default function Home() {
                     <p>{product.ratingsAverage}</p>
                   </div>
                 </div>
-                <div className="grid place-items-end pb-10 md:pb-20 xl:pb-10">
-                  <i className="fa-solid fa-heart px-3"></i>
+
+                <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
+                  <button   onClick={(e) => {
+                      e.preventDefault();
+                      handleAddProductToWishList(product._id);
+                    }}>
+                    <i className="fa-solid fa-heart px-3 hover:text-red-700"></i>
+                  </button>
                 </div>
                 <div className="absolute bottom-0 left-[30%] translate-y-[100%]">
                   <button

@@ -47,6 +47,7 @@ export default function Navbar() {
                 )}
               </li>
             </ul>
+
             <ul className="flex gap-3">
               {!userToken ? (
                 <>
@@ -96,6 +97,7 @@ export default function Navbar() {
                 />
               </svg>
             </button>
+            
           </div>
 
           <div

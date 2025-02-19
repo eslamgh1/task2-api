@@ -40,7 +40,7 @@ export default function Brands() {
             >
               <img
                 src={brand.image}
-                alt={brand.name}
+                alt={"brand image"}
                 className="w-full"
               />
 

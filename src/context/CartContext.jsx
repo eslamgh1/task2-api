@@ -13,6 +13,7 @@ export default function CartContext({ children }) {
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [products, setProducts] = useState(null);
   const [cartId, setCartId] = useState(null);
+  const [productsWishList, setProductsWishList] = useState(null);
 
   function resetValues() {
     setNumOfCartItems(0)
@@ -140,6 +141,87 @@ export default function CartContext({ children }) {
     return removeRes;
   }
 
+  async function addProductToWishList(id) {
+    const res = await axios
+      .post(
+        "https://ecommerce.routemisr.com/api/v1/wishlist",
+        {
+          productId: id,
+        },
+        {
+          headers: {
+            token: localStorage.getItem("tkn")
+          },
+        }
+      )
+      .then(function (res) {
+        console.log("Then-addProductToWishList", res)
+        
+        return true;
+
+      })
+      .catch(function (err) {
+        console.log("Catch-addProductToWishList", err);
+        return false;
+
+      });
+
+    return res;
+  }
+
+
+  function getWishList() {
+    axios
+      .get("https://ecommerce.routemisr.com/api/v1/wishlist", {
+        headers: {
+          token: localStorage.getItem("tkn")
+        },
+      })
+      .then(function (result) {
+
+        console.log("Get-whishList-then", result.data.data);
+        setProductsWishList(result.data.data)
+        console.log("ProductsWishList-then", result.data.data);
+        
+
+        
+      })
+      .catch(function (err) {
+        console.log("getWishList-Catch", err);
+      });
+  }
+
+
+  async function removeItemWishList(id) {
+    const removeWish = await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${id}`, {
+        headers: {
+          token: localStorage.getItem("tkn")
+        },
+      })
+
+      .then(function (result) {
+        console.log("Then-removeItemWishList:", result.data.data);
+        setProductsWishList(result.data.data)
+        return true;
+      })
+
+      .catch(function (err) {
+        console.log("Catch-removeItemWishList", err);
+        return false;
+      });
+
+    return removeWish;
+  }
+
+
+  useEffect(() => {
+    if (userToken) {
+      getWishList();
+    }
+  }, [userToken]);
+
+
 
   useEffect(() => {
     if (userToken) {
@@ -165,6 +247,10 @@ export default function CartContext({ children }) {
         setProducts,
         setNumOfCartItems,
         setTotalCartPrice,
+        addProductToWishList,
+        getWishList,
+        productsWishList,
+        removeItemWishList
       }}
     >
       <div>
