@@ -13,7 +13,7 @@ export default function CartContext({ children }) {
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [products, setProducts] = useState(null);
   const [cartId, setCartId] = useState(null);
-  const [productsWishList, setProductsWishList] = useState(null);
+  const [productsWishList, setProductsWishList] = useState([]);
 
   function resetValues() {
     setNumOfCartItems(0)
