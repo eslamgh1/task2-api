@@ -13,7 +13,11 @@ import { Link } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
-  const { addProductToCart,addProductToWishList } = useContext(cartContext);
+  const { addProductToCart, addProductToWishList,removeItemWishList,getWishList } = useContext(cartContext);
+
+  const [wishlist, setWishlist] = useState([]);
+
+  const [wishListClicked, setWishListClicked] = useState([])
 
   async function handleAddProductToCart(id) {
     const res = await addProductToCart(id);
@@ -31,22 +35,27 @@ export default function Home() {
     }
   }
 
-  async function handleAddProductToWishList(id) {
-    const res = await addProductToWishList(id);
 
-    if (res) {
-      toast.success("Addeded to Wish List ", {
-        duration: 3000,
-        position: "top-center",
-      });
-    } else {
-      toast.error("Error during adding to Wish List", {
-        duration: 3000,
-        position: "top-center",
-      });
-    }
+  async function getWishListProducts(){
+
+    const data = await getWishList()
+
   }
+  // async function handleAddProductToWishList(id) {
+  //   const res = await addProductToWishList(id);
 
+  //   if (res) {
+  //     toast.success("Addeded to Wish List ", {
+  //       duration: 3000,
+  //       position: "top-center",
+  //     });
+  //   } else {
+  //     toast.error("Error during adding to Wish List", {
+  //       duration: 3000,
+  //       position: "top-center",
+  //     });
+  //   }
+  // }
 
   function getAllProducts() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/products");
@@ -71,7 +80,39 @@ export default function Home() {
     return <h2> Error From Home page</h2>;
   }
 
-
+  // async function handleToggleWishList(id) {
+  //   if (wishlist.includes(id)) {
+  //     // Remove from wishlist
+  //     const res = await removeItemWishList(id);
+  //     if (res) {
+  //       setWishlist((prev) => prev.filter((itemId) => itemId !== id)); // Remove item from array
+  //       toast.success("Removed from Wish List", {
+  //         duration: 3000,
+  //         position: "top-center",
+  //       });
+  //     } else {
+  //       toast.error("Error removing from Wish List", {
+  //         duration: 3000,
+  //         position: "top-center",
+  //       });
+  //     }
+  //   } else {
+  //     // Add to wishlist
+  //     const res = await addProductToWishList(id);
+  //     if (res) {
+  //       setWishlist((prev) => [...prev, id]); // Add item to array
+  //       toast.success("Added to Wish List", {
+  //         duration: 3000,
+  //         position: "top-center",
+  //       });
+  //     } else {
+  //       toast.error("Error adding to Wish List", {
+  //         duration: 3000,
+  //         position: "top-center",
+  //       });
+  //     }
+  //   }
+  // }
 
   return (
     <>
@@ -122,11 +163,22 @@ export default function Home() {
                 </div>
 
                 <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
-                  <button   onClick={(e) => {
+                  <button
+                    onClick={(e) => {
                       e.preventDefault();
-                      handleAddProductToWishList(product._id);
-                    }}>
-                    <i className="fa-solid fa-heart px-3 hover:text-red-700"></i>
+                      handleToggleWishList(product._id);
+                    }}
+                  >
+                    {/* <i className="fa-solid fa-heart px-3 hover:text-red-700"></i> */}
+
+                    <i
+                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 ${
+                        wishlist.includes(product._id)
+                          ? "text-red-700"
+                          : "text-black"
+                      }`}
+
+                    ></i>
                   </button>
                 </div>
                 <div className="absolute bottom-0 left-[30%] translate-y-[100%]">

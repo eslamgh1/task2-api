@@ -15,6 +15,8 @@ export default function CartContext({ children }) {
   const [cartId, setCartId] = useState(null);
   const [productsWishList, setProductsWishList] = useState([]);
 
+  const [loading, setLoading] = useState(false)
+
   function resetValues() {
     setNumOfCartItems(0)
     setTotalCartPrice(0)
@@ -140,7 +142,7 @@ export default function CartContext({ children }) {
 
     return removeRes;
   }
-
+// Comment start wish list context
   async function addProductToWishList(id) {
     const res = await axios
       .post(
@@ -156,7 +158,7 @@ export default function CartContext({ children }) {
       )
       .then(function (res) {
         console.log("Then-addProductToWishList", res)
-        
+        getWishList()
         return true;
 
       })
@@ -171,6 +173,7 @@ export default function CartContext({ children }) {
 
 
   function getWishList() {
+    setLoading(true)
     axios
       .get("https://ecommerce.routemisr.com/api/v1/wishlist", {
         headers: {
@@ -182,12 +185,14 @@ export default function CartContext({ children }) {
         console.log("Get-whishList-then", result.data.data);
         setProductsWishList(result.data.data)
         console.log("ProductsWishList-then", result.data.data);
+        setLoading(false)
         
 
         
       })
       .catch(function (err) {
         console.log("getWishList-Catch", err);
+        setLoading(false)
       });
   }
 
@@ -250,7 +255,8 @@ export default function CartContext({ children }) {
         addProductToWishList,
         getWishList,
         productsWishList,
-        removeItemWishList
+        removeItemWishList,
+        loading, setLoading,
       }}
     >
       <div>
