@@ -19,7 +19,7 @@ export default function Brands() {
   const allBrands = data?.data.data;
   // console.log("resGetAllBrands", allBrands)
   // console.log("getAllBrands", getAllBrands)
-  console.log("allBrands", allBrands);
+
 
     if (isLoading) {
       return <LoaderScreen />;
@@ -44,11 +44,9 @@ export default function Brands() {
                 className="w-full"
               />
 
-              <p className="pb-14">
-                <h2 className="text-center pt-14 font-bold text-3xl text-green-500 ">
-                  {brand.name}
-              
-                </h2>
+              <p className="pb-14 text-center pt-14 font-bold text-3xl text-green-500">
+              {brand.name}
+            
               </p>
             </div>
           ))}

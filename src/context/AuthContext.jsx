@@ -13,10 +13,13 @@ export default function AuthContextProvider({ children }) {
 
   function decryptUserToken() {
     const resDecrypt = jwtDecode(userToken)
-    console.log('resDecrypt', resDecrypt)
+    // console.log('resDecrypt', resDecrypt)
     setUserData(resDecrypt)
   }
 
+
+
+  
   useEffect(
     function () {
       if (userToken) {

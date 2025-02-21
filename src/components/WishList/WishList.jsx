@@ -22,8 +22,7 @@ export default function WishList() {
 
   console.log("productsWishList:", productsWishList);
 
-  
-  
+
   
 
 
@@ -66,7 +65,7 @@ export default function WishList() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"></thead>
               <tbody>
-                { loading ? <LoaderScreen/> : productsWishList.length ===0 ? <h1>nooooo </h1>  : <>
+                { loading ? <LoaderScreen/> : productsWishList.length ===0 ? <h1> No Products are Found </h1>  : <>
                 
 
                   {productsWishList.map((productwish) => (

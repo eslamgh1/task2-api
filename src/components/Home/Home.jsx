@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import style from "./Home.module.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -20,8 +19,6 @@ export default function Home() {
     getWishList,
   } = useContext(cartContext);
 
-
-
   const [wishListClicked, setWishListClicked] = useState([]);
 
   async function handleAddProductToCart(id) {
@@ -40,10 +37,37 @@ export default function Home() {
     }
   }
 
+  function getAllProducts() {
+    return axios.get("https://ecommerce.routemisr.com/api/v1/products");
+  }
+
+  const { data, isLoading, isError, error, isFetching } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: getAllProducts,
+    // enabled:false,
+  });
+
+  const allProducts = data?.data.data;
+
+  // allProducts is a arry so I can map it and I couldn't map objects
+  // console.log("allProducts", allProducts);
+
+
   async function getWishListProducts() {
     const data = await getWishList();
+
     console.log(data);
+    const wishData = data.data.map((item) => item._id);
+    console.log("wishData Eng Mostafaaaaaa :",wishData);
+    
   }
+
+  async function toggleWishList() {
+    const data = await getWishList();
+    
+    
+  }
+
   // async function handleAddProductToWishList(id) {
   //   const res = await addProductToWishList(id);
 
@@ -60,21 +84,12 @@ export default function Home() {
   //   }
   // }
 
-  function getAllProducts() {
-    return axios.get("https://ecommerce.routemisr.com/api/v1/products");
-  }
+  useEffect(() => {
+    getWishListProducts();
 
-  const { data, isLoading, isError, error, isFetching } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: getAllProducts,
-    // enabled:false,
-  });
+  }, []);
 
-  const allProducts = data?.data.data;
-
-  // allProducts is a arry so I can map it and I couldn't map objects
-  console.log("allProducts", allProducts);
-
+  // return at the bottom  of code and before UI
   if (isLoading) {
     return <LoaderScreen />;
   }
@@ -82,49 +97,6 @@ export default function Home() {
   if (isError) {
     return <h2> Error From Home page</h2>;
   }
-
-  // async function handleToggleWishList(id) {
-  //   if (wishlist.includes(id)) {
-  //     // Remove from wishlist
-  //     const res = await removeItemWishList(id);
-  //     if (res) {
-  //       setWishlist((prev) => prev.filter((itemId) => itemId !== id)); // Remove item from array
-  //       toast.success("Removed from Wish List", {
-  //         duration: 3000,
-  //         position: "top-center",
-  //       });
-  //     } else {
-  //       toast.error("Error removing from Wish List", {
-  //         duration: 3000,
-  //         position: "top-center",
-  //       });
-  //     }
-  //   } else {
-  //     // Add to wishlist
-  //     const res = await addProductToWishList(id);
-  //     if (res) {
-  //       setWishlist((prev) => [...prev, id]); // Add item to array
-  //       toast.success("Added to Wish List", {
-  //         duration: 3000,
-  //         position: "top-center",
-  //       });
-  //     } else {
-  //       toast.error("Error adding to Wish List", {
-  //         duration: 3000,
-  //         position: "top-center",
-  //       });
-  //     }
-  //   }
-  // }
-
-
-  useEffect(() => {
-    if (data){
-      getWishList();
-    }
-    
-  }, [data]);
-
 
   return (
     <>
@@ -176,12 +148,15 @@ export default function Home() {
 
                 <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
                   <button
-                  
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   handleAddProductToWishList(product._id);
+                  // }}
                   >
                     {/* <i className="fa-solid fa-heart px-3 hover:text-red-700"></i> */}
 
                     <i
-                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 text-black` }
+                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 text-black`}
                     ></i>
                   </button>
                 </div>

@@ -23,6 +23,7 @@ import { Toaster } from "react-hot-toast";
 import Order from "./components/Order/Order";
 import { Offline, Online } from "react-detect-offline";
 import WishList from "./components/WishList/WishList";
+import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
 
 
 
@@ -110,6 +111,14 @@ let x = createBrowserRouter([
           <ProtectedRoute>
             <ProductDetails />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "forgetpassword",
+        element: (
+  
+            <ForgetPassword />
+    
         ),
       },
     ],

@@ -1,61 +1,57 @@
-import React, { useContext, useState } from 'react'
-import style from './Login.module.css'
+import React, { useContext, useState } from "react";
+import style from "./Login.module.css";
 import { useFormik } from "formik";
-import * as yup from 'yup';
+import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
-import { authContext } from '../../context/AuthContext';
-
+import { authContext } from "../../context/AuthContext";
 
 export default function Login() {
   // TOP Level Function Component
   const navigate = useNavigate();
-  const {setUserToken} = useContext(authContext)
+  const { setUserToken } = useContext(authContext);
 
-
-  const [errorMessage, SetErrorMessage] = useState('')
-  const [successMessage, SetSuccessMessage] = useState(false)
-  const [isClick, setIsClick] = useState(false)
+  const [errorMessage, SetErrorMessage] = useState("");
+  const [successMessage, SetSuccessMessage] = useState(false);
+  const [isClick, setIsClick] = useState(false);
 
   let user = {
-    "email": "",
-    "password": "",
-  }
-
+    email: "",
+    password: "",
+  };
 
   //   loginUser need user {} to onSubmit in registerFormik using Api:
   function loginUser(values) {
-    console.log(values, "loginUser-values")
+    console.log(values, "loginUser-values");
 
     setIsClick(true);
     // using Api:
-    const { data } = axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values)
+    const { data } = axios
+      .post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
       .then(function (x) {
-        console.log('loginUser-then:', x.data.token);
+        console.log("loginUser-then:", x.data.token);
 
-        localStorage.setItem('tkn',x.data.token)
-        setUserToken(x.data.token)
+        localStorage.setItem("tkn", x.data.token);
+        setUserToken(x.data.token);
 
         SetSuccessMessage(true);
-        setIsClick(false)
+        setIsClick(false);
 
         setTimeout(() => {
-          navigate('/home')
+          navigate("/home");
         }, 2000);
       })
 
       .catch(function (x) {
-        console.log('loginUser-catch: ', x.response.data.message);
-        SetErrorMessage(x.response.data.message)
-        setIsClick(false)
+        console.log("loginUser-catch: ", x.response.data.message);
+        SetErrorMessage(x.response.data.message);
+        setIsClick(false);
 
         setTimeout(() => {
-          SetErrorMessage(null)
+          SetErrorMessage(null);
         }, 3000);
-
       });
-
   }
 
   // login and validation
@@ -63,36 +59,48 @@ export default function Login() {
     initialValues: user,
     onSubmit: loginUser,
 
-
     // validation yup library:
     validationSchema: yup.object().shape({
-      email: yup.string().required('email is required').email("envaild email"),
-      password: yup.string().required('password is required').min(6).max(12),
-  
-    })
-
+      email: yup.string().required("email is required").email("envaild email"),
+      password: yup.string().required("password is required").min(6).max(12),
+    }),
   });
 
- 
   return (
     <>
-      
       <div className="py-5">
-        {successMessage ? <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          <span className="font-medium"> Congratulations </span>
-        </div> : ''}
+        {successMessage ? (
+          <div
+            className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert"
+          >
+            <span className="font-medium"> Congratulations </span>
+          </div>
+        ) : (
+          ""
+        )}
 
-        {errorMessage ? <div className="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-          <span className="font-medium">{errorMessage} </span>
-        </div> : ''}
+        {errorMessage ? (
+          <div
+            className="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert"
+          >
+            <span className="font-medium">{errorMessage} </span>
+          </div>
+        ) : (
+          ""
+        )}
 
-
-        <h1 className="text-center py-4" > Login</h1>
-        <form onSubmit={registerFormik.handleSubmit} className="max-w-md mx-auto">
-
+        <h1 className="text-center py-4"> Login</h1>
+        <form
+          onSubmit={registerFormik.handleSubmit}
+          className="max-w-md mx-auto"
+        >
           <div className="relative z-0 w-full mb-5 group">
             <input
-              value={registerFormik.values.email} onChange={registerFormik.handleChange} onBlur={registerFormik.handleBlur}
+              value={registerFormik.values.email}
+              onChange={registerFormik.handleChange}
+              onBlur={registerFormik.handleBlur}
               type="email"
               name="email"
               id="email"
@@ -106,13 +114,21 @@ export default function Login() {
             >
               Email address
             </label>
-            {registerFormik.errors.email && registerFormik.touched.email ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span className="font-medium">Danger alert!</span> Enter your right email:{registerFormik.errors.errors}
-            </div> : null}
+            {registerFormik.errors.email && registerFormik.touched.email ? (
+              <div
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                <span className="font-medium">Danger alert!</span> Enter your
+                right email:{registerFormik.errors.errors}
+              </div>
+            ) : null}
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <input
-              value={registerFormik.values.password} onChange={registerFormik.handleChange} onBlur={registerFormik.handleBlur}
+              value={registerFormik.values.password}
+              onChange={registerFormik.handleChange}
+              onBlur={registerFormik.handleBlur}
               type="password"
               name="password"
               id="password"
@@ -126,33 +142,47 @@ export default function Login() {
             >
               Password
             </label>
-            {registerFormik.errors.password && registerFormik.touched.password ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-              <span className="font-medium">Danger alert!</span> Ensures at least 4 elements {registerFormik.errors.password}
-            </div> : null}
+            {registerFormik.errors.password &&
+            registerFormik.touched.password ? (
+              <div
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                <span className="font-medium">Danger alert!</span> Ensures at
+                least 4 elements {registerFormik.errors.password}
+              </div>
+            ) : null}
           </div>
 
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
           >
-            {  !isClick ? 'Submit' : <RotatingLines
-              visible={true}
-              height="96"
-              width="96"
-              color="grey"
-              strokeWidth="5"
-              animationDuration="0.75"
-              ariaLabel="rotating-lines-loading"
-              wrapperStyle={{}}
-              wrapperclassName=""
-            /> }
-          
-
-            
+            {!isClick ? (
+              "Submit"
+            ) : (
+              <RotatingLines
+                visible={true}
+                height="96"
+                width="96"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperclassName=""
+              />
+            )}
           </button>
         </form>
+        <div className="text-center mt-20">
+          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+              Forget your password ?
+            </span>
+          </button>
+        </div>
       </div>
     </>
   );
 }
-

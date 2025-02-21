@@ -20,7 +20,7 @@ export default function useCategories() {
   });
 
   
-console.log('custom_hooks' ,res)
+
   return res;
 
 }

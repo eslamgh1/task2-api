@@ -39,15 +39,10 @@ export default function CartContext({ children }) {
       )
       .then(function (res) {
         // console.log("cart1", res.data.numOfCartItems);
-        // console.log("cart2", res.data.data.totalCartPrice);
-        // console.log("cart3", res.data.data.products);
-
         // setNumOfCartItems(res.data.numOfCartItems);
-        // setTotalCartPrice(res.data.data.totalCartPrice);
-        // setProducts(res.data.data.products);
 
         setCartId(res.data.cartId);
-        console.log("cartID-add:", res.data.cartId);
+        // console.log("cartID-add:", res.data.cartId);
 
         getUserCart();
         return true;
@@ -69,15 +64,13 @@ export default function CartContext({ children }) {
       })
       .then(function (result) {
         // console.log("cartsucess::::", result.data.numOfCartItems);
-        // console.log("cartsucess::::", result.data.data.totalCartPrice);
-        // console.log("cartsucess::::", result.data.data.products);
 
         setNumOfCartItems(result.data.numOfCartItems);
         setTotalCartPrice(result.data.data.totalCartPrice);
         setProducts(result.data.data.products);
 
         setCartId(result.data.cartId);
-        console.log("cartID-get", result.data.cartId);
+        // console.log("cartID-get", result.data.cartId);
       })
       .catch(function (err) {
         console.log("cartFail:::", err);
@@ -125,8 +118,6 @@ export default function CartContext({ children }) {
       })
       .then(function (res) {
         console.log("numOfCartItems:", res.data.numOfCartItems);
-        console.log("totalCartPrice:", res.data.data.totalCartPrice);
-        console.log("products:", res.data.data.products);
 
         setNumOfCartItems(res.data.numOfCartItems);
         setTotalCartPrice(res.data.data.totalCartPrice);
@@ -174,7 +165,7 @@ export default function CartContext({ children }) {
 
   function getWishList() {
     setLoading(true)
-    axios
+    return axios
       .get("https://ecommerce.routemisr.com/api/v1/wishlist", {
         headers: {
           token: localStorage.getItem("tkn")
@@ -186,7 +177,7 @@ export default function CartContext({ children }) {
         setProductsWishList(result.data.data)
         console.log("ProductsWishList-then", result.data.data);
         setLoading(false)
-        
+        return result.data
 
         
       })
