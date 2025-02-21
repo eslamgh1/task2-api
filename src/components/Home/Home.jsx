@@ -54,18 +54,24 @@ export default function Home() {
 
 
   async function getWishListProducts() {
-    const data = await getWishList();
-
+    const data = await getWishList()
     console.log(data);
     const wishData = data.data.map((item) => item._id);
     console.log("wishData Eng Mostafaaaaaa :",wishData);
+    setWishListClicked(wishData)
     
   }
 
-  async function toggleWishList() {
-    const data = await getWishList();
-    
-    
+  async function toggleWishList(id) {
+    if(wishListClicked.includes(id)) {
+      const {data} = await removeItemWishList(id)
+      console.log(data.data);
+      setWishListClicked(data.data)
+    }else {
+      const {data} = await addProductToWishList(id)
+      console.log(data.data);
+      setWishListClicked(data.data)
+    }
   }
 
   // async function handleAddProductToWishList(id) {
@@ -86,7 +92,6 @@ export default function Home() {
 
   useEffect(() => {
     getWishListProducts();
-
   }, []);
 
   // return at the bottom  of code and before UI
@@ -147,16 +152,13 @@ export default function Home() {
                 </div>
 
                 <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
-                  <button
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   handleAddProductToWishList(product._id);
-                  // }}
-                  >
+                  <button onClick={(e)=> { 
+                    e.preventDefault()
+                    toggleWishList(product.id)}  }>
                     {/* <i className="fa-solid fa-heart px-3 hover:text-red-700"></i> */}
 
                     <i
-                      className={`fa-solid fa-heart text-2xl transition-colors duration-300 text-black`}
+                      className={`fa-solid fa-heart text-2xl ${wishListClicked.includes(product.id)? "text-red-500" : "text-black"}  transition-colors duration-300`}
                     ></i>
                   </button>
                 </div>

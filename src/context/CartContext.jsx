@@ -150,7 +150,7 @@ export default function CartContext({ children }) {
       .then(function (res) {
         console.log("Then-addProductToWishList", res)
         getWishList()
-        return true;
+        return res;
 
       })
       .catch(function (err) {
@@ -199,7 +199,7 @@ export default function CartContext({ children }) {
       .then(function (result) {
         console.log("Then-removeItemWishList:", result.data.data);
         setProductsWishList(result.data.data)
-        return true;
+        return result;
       })
 
       .catch(function (err) {
