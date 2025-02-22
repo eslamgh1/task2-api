@@ -23,10 +23,10 @@ import { Toaster } from "react-hot-toast";
 import Order from "./components/Order/Order";
 import { Offline, Online } from "react-detect-offline";
 import WishList from "./components/WishList/WishList";
+
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
-
-
-
+import VerifyCode from "./components/VerifyCode/VerifyCode"
+import ResetPassword from "./components/ResetPassword/ResetPassword"
 
 QueryClientProvider;
 
@@ -116,9 +116,19 @@ let x = createBrowserRouter([
       {
         path: "forgetpassword",
         element: (
-  
             <ForgetPassword />
-    
+        ),
+      },
+      {
+        path: "verifycode",
+        element: (
+            <VerifyCode />
+        ),
+      },
+      {
+        path: "resetpassword",
+        element: (
+            <ResetPassword />
         ),
       },
     ],

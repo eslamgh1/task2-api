@@ -8,7 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { authContext } from "../../context/AuthContext";
 
 
-export default function ForgetPassword() {
+export default function ResetPassword() {
 
   const navigate = useNavigate();
   const { setUserToken } = useContext(authContext);
@@ -18,31 +18,32 @@ export default function ForgetPassword() {
   const [isClick, setIsClick] = useState(false);
 
 
-  let userEmail = {
-    email: "",
+  let resetEmailPass = {
+    email:"",
+    newPassword:"",
   };
 
-
-  function forgetPassword(values) {
-    console.log(values, "forgetPassword");
+  //   loginUser need user {} to onSubmit in registerFormik using Api:
+  function resetPassword(values) {
+    console.log(values, "resetPassword");
 
     setIsClick(true);
     // using Api:
     const { data } = axios
-      .post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", values)
+      .put("https://ecommerce.routemisr.com/api/v1/auth/resetPassword", values)
       .then(function (x) {
-        console.log("forgetPassword-then:", x);
+        console.log("resetPassword-then:", x);
 
         SetSuccessMessage(true);
         setIsClick(false);
 
         setTimeout(() => {
-          navigate("/verifycode");
+          navigate("/login");
         }, 2000);
       })
 
       .catch(function (x) {
-        console.log("forgetPassword-catch: ", x);
+        console.log("resetPassword-catch: ", x);
         SetErrorMessage(x);
         setIsClick(false);
 
@@ -53,9 +54,9 @@ export default function ForgetPassword() {
   }
 
   // login and validation
-  const forgetPasswordFormik = useFormik({
-    initialValues: userEmail,
-    onSubmit: forgetPassword,
+  const resetPasswordFormik = useFormik({
+    initialValues: resetEmailPass,
+    onSubmit: resetPassword,
 
 
   });
@@ -89,16 +90,16 @@ export default function ForgetPassword() {
           ""
         )} */}
 
-        <h1 className="text-center py-4"> Please enter your email to get verification code</h1>
+        <h1 className="text-center py-4"> ResetPassword</h1>
         <form
-          onSubmit={forgetPasswordFormik.handleSubmit}
+          onSubmit={resetPasswordFormik.handleSubmit}
           className="max-w-md mx-auto"
         >
           <div className="relative z-0 w-full mb-5 group">
             <input
-              value={forgetPasswordFormik.values.email}
-              onChange={forgetPasswordFormik.handleChange}
-              onBlur={forgetPasswordFormik.handleBlur}
+              value={resetPasswordFormik.values.email}
+              onChange={resetPasswordFormik.handleChange}
+              onBlur={resetPasswordFormik.handleBlur}
               type="email"
               name="email"
               id="email"
@@ -113,6 +114,35 @@ export default function ForgetPassword() {
               Email address
             </label>
 
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              value={resetPasswordFormik.values.newPassword}
+              onChange={resetPasswordFormik.handleChange}
+              onBlur={resetPasswordFormik.handleBlur}
+              type="password"
+              name="newPassword"
+              id="newPassword"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              htmlFor="newPassword"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              New Password
+            </label>
+            {resetPasswordFormik.errors.password &&
+            resetPasswordFormik.touched.password ? (
+              <div
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                <span className="font-medium">Danger alert!</span> Ensures at
+                least 4 elements {resetPasswordFormik.errors.password}
+              </div>
+            ) : null}
           </div>
 
           <button
