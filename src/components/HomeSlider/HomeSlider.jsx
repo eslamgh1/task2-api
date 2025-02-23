@@ -19,6 +19,8 @@ export default function HomeSlider() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,          // Enable autoplay
+    autoplaySpeed: 2000
   };
 
   return (

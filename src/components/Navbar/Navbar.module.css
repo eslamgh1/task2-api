@@ -1,1 +1,4 @@
-.Navbar {}
+
+.active{
+  @apply font-bold text-blue-700
+}

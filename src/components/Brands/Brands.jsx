@@ -3,10 +3,16 @@ import style from "./Brands.module.css";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoaderScreen from "../LoaderScreen/LoaderScreen";
+import  {  useEffect } from "react";
 
 
 
 export default function Brands() {
+
+  useEffect(() => {
+    document.title = "All Brands-FreshCart ";
+  }, []);
+
   function getAllBrands() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/brands");
   }
@@ -19,6 +25,7 @@ export default function Brands() {
   const allBrands = data?.data.data;
   // console.log("resGetAllBrands", allBrands)
   // console.log("getAllBrands", getAllBrands)
+
 
 
     if (isLoading) {

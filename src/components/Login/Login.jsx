@@ -93,7 +93,17 @@ export default function Login() {
           ""
         )}
 
-        <h1 className="text-center py-4"> Login</h1>
+        {/* <h1 className="text-center py-4"> Login</h1> */}
+        
+
+        <div className="mb-10 w-full p-4 text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400" role="alert">
+            <div className="flex items-center justify-center">
+                <span className="sr-only">User info</span>
+                <h3 className="font-extrabold  text-center text-2xl">login now</h3>
+
+            </div>
+        </div>
+
         <form
           onSubmit={registerFormik.handleSubmit}
           className="max-w-md mx-auto"
@@ -158,7 +168,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+            className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
           >
             {!isClick ? (
               "Submit"

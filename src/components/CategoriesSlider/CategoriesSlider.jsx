@@ -32,6 +32,8 @@ export default function CategoriesSlider() {
         },
       },
     ],
+    autoplay: true,          // Enable autoplay
+    autoplaySpeed: 2000,   
   };
 
 const { data , isLoading} = useCategories();

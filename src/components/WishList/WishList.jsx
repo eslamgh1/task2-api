@@ -7,6 +7,11 @@ import { cartContext } from "../../context/CartContext";
 import { authContext } from "../../context/AuthContext";
 
 export default function WishList() {
+
+    useEffect(() => {
+          document.title = "Wish List FreshCart";
+        }, []);
+      
   const { userToken } = useContext(authContext);
 
 
@@ -50,7 +55,8 @@ export default function WishList() {
   }, []);
 
   return (
-    <>
+<div className="pb-24">
+<>
       <h1 className="text-4xl font-bold pb-5 text-green-400">
         My Wish List
       </h1>
@@ -71,8 +77,9 @@ export default function WishList() {
                 </tr>
               ) : productsWishList.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4">
-                    <h1>No Products Found</h1>
+                  <td colSpan="5" className="text-center py-4 border">
+                  <i className="text-red-500 fa-solid fa-cart-shopping"> </i>
+                    <h1 className=" text-lg text-red-500">Empty cart </h1>
                   </td>
                 </tr>
               ) : (
@@ -122,5 +129,6 @@ export default function WishList() {
         </div>
       </div>
     </>
+</div>
   );
 }

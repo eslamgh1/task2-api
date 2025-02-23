@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import style from './Products.module.css'
-import { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 import LoaderScreen from "../LoaderScreen/LoaderScreen";
-
+import HomeSlider from "../HomeSlider/HomeSlider";
+import CategoriesSlider from "../../components/CategoriesSlider/CategoriesSlider";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 import { useQuery } from "@tanstack/react-query";
@@ -14,8 +13,22 @@ import { cartContext } from "../../context/CartContext";
 
 
 
-export default function Products() {
-  const { addProductToCart } = useContext(cartContext);
+
+
+export default function Home() {
+
+    useEffect(() => {
+            document.title = "Products FreshCart";
+          }, []);
+        
+  const {
+    addProductToCart,
+    addProductToWishList,
+    removeItemWishList,
+    getWishList,
+  } = useContext(cartContext);
+
+  const [wishListClicked, setWishListClicked] = useState([]);
 
   async function handleAddProductToCart(id) {
     const res = await addProductToCart(id);
@@ -24,6 +37,8 @@ export default function Products() {
       toast.success("Product is Added to cart ", {
         duration: 3000,
         position: "top-center",
+      
+        
       });
     } else {
       toast.error("Error during adding to cart", {
@@ -45,6 +60,43 @@ export default function Products() {
 
   const allProducts = data?.data.data;
 
+
+  async function getWishListProducts() {
+    const data = await getWishList()
+    console.log(data);
+    const wishData = data.data.map((item) => item._id);
+    console.log("wishData :",wishData);
+    setWishListClicked(wishData)
+    
+  }
+
+  async function toggleWishList(id) {
+    if(wishListClicked.includes(id)) {
+      const {data} = await removeItemWishList(id)
+      console.log(data.data);
+      setWishListClicked(data.data)
+      toast.error("Removed from Wish List", {
+              duration: 3000,
+              position: "top-center",
+            });
+      
+    }else {
+      const {data} = await addProductToWishList(id)
+      console.log(data.data);
+      setWishListClicked(data.data)
+      toast.success("Addeded to Wish List ", {
+             duration: 3000,
+              position: "top-center",
+           });
+    }
+  }
+
+
+  useEffect(() => {
+    getWishListProducts();
+  }, []);
+
+  // return at the bottom  of code and before UI
   if (isLoading) {
     return <LoaderScreen />;
   }
@@ -52,18 +104,14 @@ export default function Products() {
   if (isError) {
     return <h2> Error From Home page</h2>;
   }
-  
 
   return (
     <>
-      {/* 1st container mx-auto = container of bootstrap */}
+
       <div className="container mx-auto p-5">
         <div className="flex flex-col gap-5">
-          {/* <button onClick={refetch} className="bg-blue-600 border width w-3/4"> Get Products</button> */}
-
-          <SearchBar />
-
-          
+  
+          {/* <SearchBar /> */}
 
           <div className="grid gap-2 md:grid-cols-2 md:gap-5 lg:grid-cols-5">
             {/* 3rd Div Card for IMG */}
@@ -102,8 +150,17 @@ export default function Products() {
                     <p>{product.ratingsAverage}</p>
                   </div>
                 </div>
-                <div className="grid place-items-end pb-10 md:pb-20 xl:pb-10">
-                  <i className="fa-solid fa-heart px-3"></i>
+
+                <div className="grid place-items-end pt-5 pe-5 pb-10 md:pb-20 xl:pb-10">
+                  <button onClick={(e)=> { 
+                    e.preventDefault()
+                    toggleWishList(product.id)}  }>
+        
+
+                    <i
+                      className={`fa-solid fa-heart text-2xl ${wishListClicked.includes(product.id)? "text-red-500" : "text-black"}  transition-colors duration-300`}
+                    ></i>
+                  </button>
                 </div>
                 <div className="absolute bottom-0 left-[30%] translate-y-[100%]">
                   <button
@@ -124,8 +181,4 @@ export default function Products() {
       </div>
     </>
   );
-
-
 }
-
-

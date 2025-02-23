@@ -58,7 +58,7 @@ export default function ProductDetails() {
   return (
     <>
       <div className="container mx-auto">
-        <h1>Product Details </h1>
+        {/* <h1>Product Details </h1> */}
         <div className="grid sm:grid-cols-5 gap-3">
           <div className="col-span-2">
             <img
@@ -68,17 +68,15 @@ export default function ProductDetails() {
             />
           </div>
           <div className="col-span-3">
-            <h1>title {productDetailsObj.title}</h1>
-            <p>description {productDetailsObj.description}</p>
-            <h3>price: {productDetailsObj.price}</h3>
-            <h3>sold: {productDetailsObj.sold}</h3>
-            <button
-              onClick={handleAddProductToCart}
-              className="bg-green-500 w-full rounded my-3 font-bold"
-            >
-              {" "}
-              Add to cart +
-            </button>
+            <h1 className="text-green-500 text-3xl font-bold mb-5" > {productDetailsObj.title}</h1>
+            <p className="text-lg"> {productDetailsObj.description}</p>
+            <h3 className="text-green-800 my-10 font-bold"> {productDetailsObj.price} EGP</h3>
+            <h3 className="text-green-800 my-10 font-bold">    <i className="text-amber-500 fa-solid fa-star"></i> {productDetailsObj.ratingsAverage} </h3>
+
+            
+      
+            <button   onClick={handleAddProductToCart} type="button" className="w-full text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add to cart +</button>
+
           </div>
         </div>
       </div>

@@ -38,12 +38,12 @@ export default function VerifyCode() {
 
         setTimeout(() => {
           navigate("/resetpassword");
-        }, 2000);
+        }, 1000);
       })
 
       .catch(function (x) {
-        console.log("verifycode-catch: ", x);
-        SetErrorMessage(x);
+        console.log("verifycode-catch: ", x.response.data.message);
+        SetErrorMessage(x.response.data.message);
         setIsClick(false);
 
         setTimeout(() => {
@@ -67,18 +67,18 @@ export default function VerifyCode() {
   return <>
       
       <div className="py-5">
-        {/* {successMessage ? (
+        {successMessage ? (
           <div
             className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
           >
-            <span className="font-medium"> Congratulations </span>
+            <span className="font-medium"> Next step </span>
           </div>
         ) : (
           ""
-        )} */}
+        )}
 
-        {/* {errorMessage ? (
+        {errorMessage ? (
           <div
             className="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
@@ -87,9 +87,9 @@ export default function VerifyCode() {
           </div>
         ) : (
           ""
-        )} */}
+        )}
 
-        <h1 className="text-center py-4"> Please enter your the verification code</h1>
+        <h1 className="text-center py-10 text-xl"> 2.Please enter your the verification code</h1>
         <form
           onSubmit={verifyCodeFormik.handleSubmit}
           className="max-w-md mx-auto"

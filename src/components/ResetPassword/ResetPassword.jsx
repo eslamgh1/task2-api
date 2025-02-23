@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import { authContext } from "../../context/AuthContext";
+import * as yup from "yup";
 
 
 export default function ResetPassword() {
@@ -43,8 +44,8 @@ export default function ResetPassword() {
       })
 
       .catch(function (x) {
-        console.log("resetPassword-catch: ", x);
-        SetErrorMessage(x);
+        console.log("resetPassword-catch: ", x.response.data.message);
+        SetErrorMessage(x.response.data.message);
         setIsClick(false);
 
         setTimeout(() => {
@@ -57,6 +58,10 @@ export default function ResetPassword() {
   const resetPasswordFormik = useFormik({
     initialValues: resetEmailPass,
     onSubmit: resetPassword,
+    // validationSchema: yup.object().shape({
+    //       email: yup.string().required("email is required").email("envaild email"),
+    //       password: yup.string().required("password is required").min(6).max(12),
+    //     }),
 
 
   });
@@ -68,7 +73,7 @@ export default function ResetPassword() {
   return <>
       
       <div className="py-5">
-        {/* {successMessage ? (
+        {successMessage ? (
           <div
             className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
@@ -77,9 +82,9 @@ export default function ResetPassword() {
           </div>
         ) : (
           ""
-        )} */}
+        )}
 
-        {/* {errorMessage ? (
+        {errorMessage ? (
           <div
             className="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
@@ -88,9 +93,10 @@ export default function ResetPassword() {
           </div>
         ) : (
           ""
-        )} */}
+        )}
 
-        <h1 className="text-center py-4"> ResetPassword</h1>
+        <h1 className="text-center py-4 text-3xl my-5 font-bold"> Reset Password  <span className="text-sm font-normal"> 3.Final step</span> </h1>
+        
         <form
           onSubmit={resetPasswordFormik.handleSubmit}
           className="max-w-md mx-auto"
@@ -150,7 +156,7 @@ export default function ResetPassword() {
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
           >
             {!isClick ? (
-              "Submit"
+              "Reset New Password"
             ) : (
               <RotatingLines
                 visible={true}
@@ -164,6 +170,7 @@ export default function ResetPassword() {
                 wrapperclassName=""
               />
             )}
+            { }
           </button>
         </form>
 

@@ -24,6 +24,8 @@ export default function CartContext({ children }) {
     setCartId(null)
   }
 
+  
+
   async function addProductToCart(id) {
     const res = await axios
       .post(
@@ -43,7 +45,8 @@ export default function CartContext({ children }) {
 
         setCartId(res.data.cartId);
         // console.log("cartID-add:", res.data.cartId);
-
+      
+      
         getUserCart();
         return true;
       })
@@ -150,6 +153,7 @@ export default function CartContext({ children }) {
       .then(function (res) {
         console.log("Then-addProductToWishList", res)
         getWishList()
+        
         return res;
 
       })

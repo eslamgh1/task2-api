@@ -12,6 +12,11 @@ import { Link } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
 
 export default function Home() {
+
+    useEffect(() => {
+        document.title = "Fresh Cart [Home]";
+      }, []);
+    
   const {
     addProductToCart,
     addProductToWishList,
@@ -49,15 +54,12 @@ export default function Home() {
 
   const allProducts = data?.data.data;
 
-  // allProducts is a arry so I can map it and I couldn't map objects
-  // console.log("allProducts", allProducts);
-
 
   async function getWishListProducts() {
     const data = await getWishList()
     console.log(data);
     const wishData = data.data.map((item) => item._id);
-    console.log("wishData Eng Mostafaaaaaa :",wishData);
+    console.log("wishData :",wishData);
     setWishListClicked(wishData)
     
   }
@@ -67,28 +69,22 @@ export default function Home() {
       const {data} = await removeItemWishList(id)
       console.log(data.data);
       setWishListClicked(data.data)
+      toast.error("Removed from Wish List", {
+              duration: 3000,
+              position: "top-center",
+            });
+      
     }else {
       const {data} = await addProductToWishList(id)
       console.log(data.data);
       setWishListClicked(data.data)
+      toast.success("Addeded to Wish List ", {
+             duration: 3000,
+              position: "top-center",
+           });
     }
   }
 
-  // async function handleAddProductToWishList(id) {
-  //   const res = await addProductToWishList(id);
-
-  //   if (res) {
-  //     toast.success("Addeded to Wish List ", {
-  //       duration: 3000,
-  //       position: "top-center",
-  //     });
-  //   } else {
-  //     toast.error("Error during adding to Wish List", {
-  //       duration: 3000,
-  //       position: "top-center",
-  //     });
-  //   }
-  // }
 
   useEffect(() => {
     getWishListProducts();
@@ -105,13 +101,13 @@ export default function Home() {
 
   return (
     <>
-      {/* 1st container mx-auto = container of bootstrap */}
+
       <div className="container mx-auto p-5">
         <div className="flex flex-col gap-5">
-          {/* <button onClick={refetch} className="bg-blue-600 border width w-3/4"> Get Products</button> */}
+  
           <HomeSlider />
           <CategoriesSlider />
-          <SearchBar />
+          {/* <SearchBar /> */}
 
           <div className="grid gap-2 md:grid-cols-2 md:gap-5 lg:grid-cols-5">
             {/* 3rd Div Card for IMG */}
@@ -155,7 +151,7 @@ export default function Home() {
                   <button onClick={(e)=> { 
                     e.preventDefault()
                     toggleWishList(product.id)}  }>
-                    {/* <i className="fa-solid fa-heart px-3 hover:text-red-700"></i> */}
+        
 
                     <i
                       className={`fa-solid fa-heart text-2xl ${wishListClicked.includes(product.id)? "text-red-500" : "text-black"}  transition-colors duration-300`}

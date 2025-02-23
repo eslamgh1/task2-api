@@ -4,8 +4,14 @@ import LoaderScreen from "../LoaderScreen/LoaderScreen";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useCategories from "../../assets/customHooks/useCategories";
+import  {  useEffect } from "react";
 
 export default function Categories() {
+    useEffect(() => {
+        document.title = "Categories -FreshCart ";
+      }, []);
+
+    
   const { data, isLoading } = useCategories();
   const allCategories = data?.data.data;
 
