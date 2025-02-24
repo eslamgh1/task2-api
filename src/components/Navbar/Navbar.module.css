@@ -1,4 +1,7 @@
+/* @media (max-width: 425px) {
+  .custom-nav {
+  
+    padding: 1px;
+    
 
-.active{
-  @apply font-bold text-blue-700
-}
+}} */

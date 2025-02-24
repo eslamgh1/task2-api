@@ -1,7 +1,7 @@
+import React, { useState, useContext } from "react";
 import style from "./Navbar.module.css";
 import logo from "../../assets/Images/freshcart-logo.svg";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { authContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { cartContext } from "../../context/CartContext";
@@ -11,6 +11,7 @@ export default function Navbar() {
   const { setUserToken } = useContext(authContext);
   const { numOfCartItems } = useContext(cartContext);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function logOut() {
     console.log("logged Out");
@@ -19,17 +20,26 @@ export default function Navbar() {
     navigate("/login");
   }
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    if (!isMenuOpen) {
+      setTimeout(() => {
+        setIsMenuOpen(false);
+      }, 2000); // Close the menu after 2 seconds
+    }
+  };
+
   return (
     <>
-      <nav className="bg-green-300 border-gray-200 dark:bg-gray-900 fixed top-0 right-0 left-0 z-50">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav className="bg-green-300 bg-opacity-90 rounded-md border-gray-200 dark:bg-gray-900 fixed top-0 right-0 left-0 z-50">
+        <div className="custom-nav max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to=""
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img src={logo} className="h-8" alt="logo" />
           </Link>
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
+          <div className="maintab flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
             <ul className="flex gap-3">
               <li>
                 {userToken && (
@@ -79,6 +89,7 @@ export default function Navbar() {
               className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="navbar-cta"
               aria-expanded="false"
+              onClick={toggleMenu}
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -101,7 +112,7 @@ export default function Navbar() {
           </div>
 
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? '' : 'hidden'}`}
             id="navbar-cta"
           >
             {userToken ? (
